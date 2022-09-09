@@ -1,0 +1,10 @@
+--- 
+- name: testservers
+  hosts: all
+  become: true
+  tasks:
+    - name: Installing httpd on rhel
+      yum: name=httpd state=present
+
+    - name: installing apache2 on ubuntu
+      apt: name=apache2 state=present

@@ -1,0 +1,17 @@
+---
+- name: Install Packages
+  become: true
+  hosts: webservers
+  tasks:
+  - name: Install git in webserver
+    yum:
+      #  name: ["git", "make"]
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - git
+      - gcc
+      - tree
+      - wget
+      - telnet
+      - gzip

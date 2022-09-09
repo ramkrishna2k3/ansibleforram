@@ -1,0 +1,16 @@
+---
+- name: Install httpd on server
+  become: true
+  hosts: webservers
+  tasks:
+  - name: Install httpd package
+    yum:
+      name: httpd
+      state: installed
+    notify: start apache
+
+  handlers:
+  - name: start apache
+    service:
+      name: httpd
+      state: started 

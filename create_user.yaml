@@ -1,0 +1,9 @@
+---
+- name: Create a user on target node
+  become: true
+  hosts: all
+  tasks:
+  - name: creating a user dev 
+    user: name=dev
+    
+

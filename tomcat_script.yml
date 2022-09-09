@@ -1,0 +1,37 @@
+---
+- name: Setup Tomcat
+  become: true
+  hosts: all
+  tasks:
+  - name: install java
+    yum:
+      name: java
+      state: installed
+    when: ansible_os_family == "RedHat"
+
+  - name: install java on ubuntu server
+    apt:
+      name: default-jdk
+      state: present
+    when: ansible_os_family == "Debian"
+
+  - name: download tomcat packages
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
+      dest: /opt
+
+  - name: extract tomcat package
+    unarchive: 
+      src: /opt/apache-tomcat-9.0.65.tar.gz
+      dest: /opt
+      remote_src: yes
+      
+  - name: execution permission to startup.sh shutdown.sh
+    file:
+      path: /opt/apache-tomcat-9.0.65/bin/startup.sh
+      mode: 0777
+
+  - name: start the tomcat services
+    shell: nohup ./startup.sh
+    args:
+      chdir: /opt/apache-tomcat-9.0.65/bin/
